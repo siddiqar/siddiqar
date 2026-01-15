@@ -103,7 +103,7 @@ function onSelect(option: Option) {
       truncate
     >
       <div class="flex-1 text-gray-400 dark:text-gray-500 text-start truncate">
-        Cari apapun ...
+        Search anything ...
       </div>
       <template #trailing>
         <UKbd>⌘</UKbd>

@@ -1,3 +1,36 @@
+interface GitHubRepo {
+  id: number
+  name: string
+  description: string | null
+  html_url: string
+  homepage: string | null
+  stargazers_count: number
+  forks_count: number
+  language: string | null
+  topics: string[]
+  created_at: string
+  updated_at: string
+  fork: boolean
+  private: boolean
+}
+
+interface Repo {
+  id: number
+  name: string
+  title: string
+  description: string
+  url: string
+  homepage: string | null
+  stars: number
+  forks: number
+  language: string | null
+  topics: string[]
+  created_at: string
+  updated_at: string
+  project_url: string
+  status: string
+}
+
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
   const username = config.public.user.name
@@ -14,12 +47,12 @@ export default defineEventHandler(async (event) => {
       throw new Error(`GitHub API error: ${response.status}`)
     }
     
-    const repos = await response.json()
+    const repos: GitHubRepo[] = await response.json()
     
     // Filter out forks and private repos, return only public repos
-    const publicRepos = repos
-      .filter((repo: any) => !repo.fork && !repo.private)
-      .map((repo: any) => ({
+    const publicRepos: Repo[] = repos
+      .filter((repo) => !repo.fork && !repo.private)
+      .map((repo) => ({
         id: repo.id,
         name: repo.name,
         title: repo.name,
@@ -35,7 +68,7 @@ export default defineEventHandler(async (event) => {
         project_url: repo.homepage || repo.html_url,
         status: 'active'
       }))
-      .sort((a: any, b: any) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+      .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
     
     return publicRepos
   } catch (error) {
