@@ -14,14 +14,9 @@ export default defineNuxtConfig({
       }
     }
   },
-  modules: ['@nuxt/ui', '@nuxt/fonts', '@nuxt/content'],
+  modules: ['@nuxt/ui'],
   app: {
     pageTransition: { name: 'fade', mode: 'out-in' },
     layoutTransition: { name: 'fade', mode: 'out-in' }
-  },
-  fonts: {
-    families: [
-      { name: 'Onest', provider: 'google' },
-    ]
   },
 })
